@@ -53,12 +53,11 @@ Type 'help' for available commands.</div>
     <script>
         const terminal = document.getElementById('terminal');
         const commandInput = document.getElementById('command');
-        const nothing = "3e4e7c6e53e7857e0558363de38eb7410871d2c67a1c09e3eb2526f673422959";
+        const data = 'h';
+        const nothing = "astr3e4e7c6e53e7857e0558363de38eb7410871d2c67a1c09e3eb2526f673422959";
         let currentDir = '/home/user';
-        let flagFound = false;
-        let hasKey = false;
-        let hasIV = false;
-
+        const newPrompt = 's';
+        const paddingAlph = 'r';
         const ef = CryptoJS.AES.encrypt(
             "3e4e7c6e53e7857e0558363de38eb7410",
             CryptoJS.enc.Latin1.parse('mQ1QuqAJSpkrOUEUg9ytMektw=='),
@@ -67,7 +66,17 @@ Type 'help' for available commands.</div>
                 mode: CryptoJS.mode.CBC,
                 padding: CryptoJS.pad.ZeroPadding
             }
+            
         ).toString();
+        const responseFromTerminal = `{${ef}}`
+        const globalOperator = 'a';
+        var scrolling;
+        const commandInputOutput = globalOperator+newPrompt+"t"+data+paddingAlph;
+        function scrollfunction(){
+            const scrollButtonText = commandInputOutput+"a";
+            return scrollButtonText+responseFromTerminal;
+        }
+        scrolling=scrollfunction();
         const commands = {
             'help': () => `Available commands:
 ls        - List directory contents
@@ -96,17 +105,14 @@ whoami    - Show current user`,
             'cat': (file) => {
                 const files = {
                     'data.txt': 'Nothing interesting here...',
-                    '.congrats': 'Good job finding this file!\nBut the real flag is not here :)...',
+                    '.congrats': 'Good job finding this file!\nBut the real flag is not here :)..Clue: close watch the script',
                     'pic.jpg': '[Binary data not displayed]',
-                    '.623723':`astra{${ef}}`,
+                    '.623723':`source`,
                     'code.py': 'print("Hardwork never fails!")'
                 };
                 
                 if (!file) return "Usage: cat <filename>";
                 if (file in files) {
-                    if (file === '.623723' && !flagFound) {
-                        flagFound = true;
-                    }
                     return files[file];
                 }
                 return `cat: ${file}: No such file or directory`;
