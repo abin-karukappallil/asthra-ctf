@@ -31,7 +31,7 @@ def submit():
         
         if user_hashed == hashed_password:
             return jsonify({
-                "message": "Correct password! Here's the flag: CTF{you_broke_the_hashing_chain}",
+                "message": "Correct password! Here's the flag: asthra{you_broke_the_hashing_chain}",
                 "status": "success"
             })
         else:
@@ -57,3 +57,4 @@ if __name__ == '__main__':
             f.write(default_password)
     
     app.run(debug=True, host='0.0.0.0', port=5000)
+#Message: KZ9tA8sFJt
