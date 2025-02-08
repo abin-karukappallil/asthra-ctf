@@ -4,7 +4,6 @@ import os
 
 app = Flask(__name__)
 
-# Store password hash - in a real app, this would be in a secure config
 password_hash = hashlib.sha256(b"secretpassword").hexdigest()
 
 @app.route('/')
@@ -20,7 +19,7 @@ def submit():
         return jsonify({
             "success": True,
             "message": "Correct password!",
-            "flag": "CTF{congratulations_you_found_the_flag}"
+            "flag": "asthra{congratulations_you_found_the_flag}"
         })
     else:
         return jsonify({

@@ -147,7 +147,6 @@
             const resultDiv = document.getElementById('result');
             const button = form.querySelector('button');
             
-            // Disable button during submission
             button.disabled = true;
             button.textContent = 'Checking...';
             
@@ -172,7 +171,6 @@
             } catch (error) {
                 resultDiv.innerHTML = '<div class="error">An error occurred. Please try again.</div>';
             } finally {
-                // Re-enable button
                 button.disabled = false;
                 button.textContent = 'Unlock Flag';
             }
