@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linux CTF</title>
+    <style>
+        body {
+            background: #1e1e1e;
+            color: #33ff33;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+            font-size: 1.6rem;
+        }
+        #terminal {
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+        #input-line {
+            display: flex;
+            align-items: center;
+        }
+        #prompt {
+            color: #33ff33;
+            margin-right: 10px;
+        }
+        #command {
+            background: transparent;
+            border: none;
+            color: #33ff33;
+            font-family: monospace;
+            font-size: 1.6rem;
+            flex-grow: 1;
+            outline: none;
+        }
+        .directory {
+            color: #3399ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal">Welcome to Linux CTF v2.0
+Type 'help' for available commands.</div>
+    <div id="input-line">
+        <span id="prompt">user@ctf:~$</span>
+        <input type="text" id="command" autofocus>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const commandInput = document.getElementById('command');
+        let currentDir = '/home/user';
+
+        const files = {
+            'readme.docx': 'Nothing useful here...',
+            '.hidden_key': 'YXN0aHJhezY5R2FuZ30=',
+            'notes.txt': 'Try harder! Maybe explore more files?',
+            'info.data': 'Don’t stop now, you’re on the right path!',
+        };
+
+        const commands = {
+            'help': () => `Available commands:
+ls        - List files
+ls -a     - Show hidden files
+cat       - View file content
+pwd       - Print current directory
+clear     - Clear terminal
+base64    - To Decrypt code :)`,
+
+            
+            'ls': () => Object.keys(files).filter(file => !file.startsWith('.')).join(' '),
+            
+            'ls -a': () => Object.keys(files).join(' '),
+            
+            'cat': (file) => {
+                if (!file) return "Usage: cat <filename>";
+                if (files[file]) return files[file];
+                return `cat: ${file}: No such file or directory`;
+            },
+            
+            'pwd': () => currentDir,
+            
+            'clear': () => {
+                terminal.textContent = 'Welcome to Linux CTF v2.0\nType \'help\' for available commands.';
+                return '';
+            },
+
+            'echo': (text) => {
+                if (!text) return '';
+                const [content, pipe, decode] = text.split(' ');
+
+                if (pipe === '|' && decode === 'base64') {
+                    if (content === 'YXN0aHJhezY5R2FuZ30=') {
+                        return 'Congratulations! The flag is: asthra{69Gang}';
+                    }
+                    return 'Decoding error: Invalid string.';
+                }
+                return text;
+            }
+        };
+
+        commandInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const fullCommand = this.value.trim();
+                const [command, ...args] = fullCommand.split(' ');
+
+                let response = '';
+                if (commands[fullCommand]) {
+                    response = commands[fullCommand]();
+                } else if (commands[command]) {
+                    response = commands[command](args.join(' '));
+                } else {
+                    response = `${command}: command not found`;
+                }
+
+                terminal.textContent += `\nuser@ctf:~$ ${fullCommand}\n${response}`;
+                this.value = '';
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        });
+    </script>
+</body>
+</html>
