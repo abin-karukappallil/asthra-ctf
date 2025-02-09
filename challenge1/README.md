@@ -3,11 +3,10 @@
 ## Challenge Details
 This is a simple Linux terminal emulation challenge hosted in a web environment.
 
-## Commands
-- `ls`: List available files.
-- `ls -a`: List all files (hidden included).
-- `cat <file>`: View the content of a file.
-- `pwd`: Display the current directory.
-- `clear`: Clear the screen.
+You will be presented with a Linux terminal UI in your browser.
+Type commands to explore the environment. Use help to see available commands.
+Look for hidden files and decrypt encoded data to reveal the flag.
+The flag is in the format: asthra{...}.
 
 Your goal is to find the hidden flag in the system!
+Difficulty: Easy
