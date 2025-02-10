@@ -11,7 +11,7 @@ def challenge():
     if request.method == "POST":
         user_input = request.form.get("flag")
         if user_input == FLAG:
-            return "✅ Correct! You solved the challenge."
+            return "✅ Correct! You solved the challenge"
         else:
             return "❌ Wrong flag! Try again."
     
