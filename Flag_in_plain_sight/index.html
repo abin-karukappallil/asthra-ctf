@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silent Whispers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="glitch">Silent Whispers</h1>
+    <p>The truth is hidden where most won't look.</p>
+  </div>
+  <div class="scan-lines"></div>
+  
+  <!-- There's nothing to see here... or is there? -->
+  <!-- dvwkdud{klggqh_lqvlgh_KWPO} -->
+  <!-- also please decrypt this above key to get the flag correct-->
+
+  <div id="flag-checker">
+    <h2>Enter the flag:</h2>
+    <input type="text" id="flagInput" placeholder="Enter flag here">
+    <button onclick="checkFlag()">Submit</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    function checkFlag() {
+      var correctFlag = "asthra{hidden_inside_HTML}";
+      var userFlag = document.getElementById("flagInput").value.trim();
+      var resultEl = document.getElementById("result");
+      
+      if (userFlag === correctFlag) {
+        resultEl.textContent = "Congrats! Correct flag.";
+        resultEl.style.color = "green";
+      } else {
+        resultEl.textContent = "Opps! That's not correct. Try again.";
+        resultEl.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
