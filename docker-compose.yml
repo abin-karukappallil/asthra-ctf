@@ -1,7 +1,12 @@
-name: challenge0
+name: challenges
 
 services:
   challenge0:
     build: ./challenge0
     ports:
       - "3000:80"
+
+  challenge1:
+    build: ./challenge1
+    ports:
+      - "3001:80"

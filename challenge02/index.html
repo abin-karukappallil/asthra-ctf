@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linux Terminal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body {
+            background: #1e1e1e;
+            color: #33ff33;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+            font-size: 1.6rem;
+        }
+        #terminal {
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+        #input-line {
+            display: flex;
+            align-items: center;
+        }
+        #prompt {
+            color: #33ff33;
+            margin-right: 10px;
+        }
+        #command {
+            background: transparent;
+            border: none;
+            color: #33ff33;
+            font-family: monospace;
+            font-size: 1.6rem;
+            flex-grow: 1;
+            outline: none;
+        }
+        .directory {
+            color: #3399ff;
+        }
+        .hidden {
+            color: #666666;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal">Welcome to LinuxCTF v1.0
+Type 'help' for available commands.</div>
+    <div id="input-line">
+        <span id="prompt">user@ctf:~$</span>
+        <input type="text" id="command" autofocus>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const commandInput = document.getElementById('command');
+        const data = 'h';
+        const nothing = "astr3e4e7c6e53e7857e0558363de38eb7410871d2c67a1c09e3eb2526f673422959";
+        let currentDir = '/home/user';
+        const newPrompt = 's';
+        const paddingAlph = 'r';
+        const ef = CryptoJS.AES.encrypt(
+            "3e4e7c6e53e7857e0558363de38eb7410",
+            CryptoJS.enc.Latin1.parse('mQ1QuqAJSpkrOUEUg9ytMektw=='),
+            {
+                iv: CryptoJS.enc.Latin1.parse('mQ1QuqAJSpkrOUEUg9ytMektw=='),
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.ZeroPadding
+            }
+            
+        ).toString();
+        const responseFromTerminal = `{${ef}}`
+        const globalOperator = 'a';
+        var scrolling;
+        const commandInputOutput = globalOperator+newPrompt+"t"+data+paddingAlph;
+        function scrollfunction(){
+            const scrollButtonText = commandInputOutput+"a";
+            return scrollButtonText+responseFromTerminal;
+        }
+        scrolling=scrollfunction();
+        const commands = {
+            'help': () => `Available commands:
+ls        - List directory contents
+ls -l     - List in long format
+ls -a     - List all files
+cd        - Change directory
+pwd       - Print working directory
+cat       - Read file contents
+whoami    - Show current user`,
+            
+            'ls': () => {
+                return "data.txt code.py pic.jpg";
+            },
+
+            'ls -a': () => {
+                return `.congrats data.txt code.py pic.jpg .623723`;
+            },
+
+            'ls -l': () => {
+                return `-rw-r--r-- 1 user user  234 Jan 29 10:00 main.py
+-rw-r--r-- 1 user user 1337 Jan 29 10:00 pic.jpg
+-rw-r--r-- 1 root root    0 Jan 29 10:00 data.txt
+-rw-r--r-- 1 user user  123 Jan 29 10:00 code.py`;
+            },
+
+            'cat': (file) => {
+                const files = {
+                    'data.txt': 'Nothing interesting here...',
+                    '.congrats': 'Good job finding this file!\nBut the real flag is not here :)\nClue: decrypt the message',
+                    'pic.jpg': '[Binary data not displayed]',
+                    '.623723': 'lqvshfw wkh vrxufh frgh wr ilqg wkh iodj',
+                    'code.py': 'print("Hardwork never fails!")'
+                };
+                
+                if (!file) return "Usage: cat <filename>";
+                if (file in files) {
+                    return files[file];
+                }
+                return `cat: ${file}: No such file or directory`;
+            },
+            'pwd': () => currentDir,
+            'whoami': () => 'user',
+            'cd': (dir) => {
+                if (!dir || dir === '~') {
+                    currentDir = '/home/user';
+                    return '';
+                }
+                return 'cd: invalid directory';
+            },
+            'echo':(text) => text || '',
+            'clear': () => {
+                terminal.textContent = '';
+                return '';
+            }
+        };
+        commandInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const fullCommand = this.value.trim();
+                const [command, ...args] = fullCommand.split(' ');
+                
+                let response = '';
+                if (commands[fullCommand]) { 
+                    response = commands[fullCommand]();
+                } else if (commands[command]) {
+                    response = commands[command](args.join(' '));
+                } else {
+                    response = `${command}: command not found`;
+                }
+                
+                terminal.textContent += `\n${document.getElementById('prompt').textContent} ${fullCommand}\n${response}`;
+                this.value = '';
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        });
+    </script>
+</body>
+</html>
+
