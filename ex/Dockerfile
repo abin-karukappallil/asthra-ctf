@@ -10,5 +10,4 @@ COPY . .
 # Expose port 80 for the web server
 EXPOSE 80
 
-
-    ENTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

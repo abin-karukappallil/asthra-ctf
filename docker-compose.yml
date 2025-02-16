@@ -10,3 +10,69 @@ services:
     build: ./challenge1
     ports:
       - "3001:80"
+
+  ancient_shift:
+    build: ./Ancient_Shift
+    ports:
+      - "3002:5000"
+
+  challenge2:
+    build: ./challenge02
+    ports:
+      - "3003:80"
+
+  ctf1:
+    build: ./ctf1
+    ports:
+      - "3004:80"
+  
+  double_hashing:
+    build: ./Double_Hashing
+    ports:
+      - "3005:5000"
+    environment:
+      - FLASK_ENV=development
+    volumes:
+      - double_hashing:/app1
+    command: flask run --host=0.0.0.0
+
+  ex:
+    build: ./ex
+    ports:
+      - "3006:80"
+
+  # plain_sight:
+  #   build: ./Flag_in_plain_sight
+  #   ports:
+  #     - "3007:80"
+
+  hashed_password:
+    build: ./Hashed_Password
+    ports:
+      - "3008:5000"
+    volumes:
+      - hashed_password:/app
+    environment:
+      - FLASK_ENV=development
+    restart: always
+
+  steganography:
+    build: ./Steganography
+    ports:
+      - "3009:5000"
+    volumes:
+      - steganography:/app
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+    restart: always
+
+  flawed_authentication:
+    build: ./Flawed_Authentication
+    ports:
+      - "3010:5000"
+
+volumes:
+  double_hashing:
+  hashed_password:
+  steganography:

@@ -6,7 +6,7 @@ FLAG = "asthra{hey rizzler its skibidi ceaser cipher}"
 
 @app.route("/", methods=["GET", "POST"])
 def challenge():
-    message = "dvwkur{khb ulccohu lwv vnelgl fhduhu flskhu}"
+    message = "dvwkud{khb ulccohu lwv vnelgl fhduhu flskhu}"
     
     if request.method == "POST":
         user_input = request.form.get("flag")
